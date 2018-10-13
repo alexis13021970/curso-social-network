@@ -1,0 +1,72 @@
+CREATE DATABASE IF NOT EXISTS curso_social_network; USE
+    curso_social_network;
+CREATE TABLE users(
+    id INT(255) AUTO_INCREMENT NOT NULL,
+    role VARCHAR(20),
+    email VARCHAR(255),
+    NAME VARCHAR(255),
+    surname VARCHAR(255),
+    PASSWORD VARCHAR(255),
+    nick VARCHAR(50),
+    bio VARCHAR(2),
+    image VARCHAR(255),
+    CONSTRAINT users_unique_fields UNIQUE(email, nick),
+    CONSTRAINT pk_users PRIMARY KEY(id)
+)ENGINE = INNODB;
+
+
+CREATE TABLE publications(
+    id INT(255) AUTO_INCREMENT NOT NULL,
+    user_id INT(255),
+    TEXT MEDIUMTEXT,
+    document VARCHAR(100),
+    image VARCHAR(255),
+    STATUS VARCHAR(30),
+    created_at DATETIME,
+    CONSTRAINT pk_publications PRIMARY KEY(id),
+    CONSTRAINT fk_publications_users FOREIGN KEY(user_id) REFERENCES users(id)
+) ENGINE = innoDb;
+CREATE TABLE following(
+    id INT(255) AUTO_INCREMENT NOT NULL,
+    USER INT(255),
+    followed INT(255),
+    CONSTRAINT pk_following PRIMARY KEY(id),
+    CONSTRAINT fk_following_users FOREIGN KEY(USER) REFERENCES users(id),
+    CONSTRAINT fk_followed FOREIGN KEY(followed) REFERENCES users(id)
+) ENGINE = innoDb; 
+
+CREATE TABLE private_messages(
+    id INT(255) AUTO_INCREMENT NOT NULL,
+    message LONGTEXT,
+    emiter INT(255),
+    receiver INT(255),
+    image VARCHAR(255),
+    FILE VARCHAR(255),
+    readed VARCHAR(3),
+    created_at DATETIME,
+    CONSTRAINT pk_private_messages PRIMARY KEY(id),
+    CONSTRAINT fk_emiter_privates FOREIGN KEY(emiter) REFERENCES users(id),
+    CONSTRAINT fk_receiver_privates FOREIGN KEY(receiver) REFERENCES users(id)
+) ENGINE = innoDb; 
+
+CREATE TABLE likes(
+    id INT(255) AUTO_INCREMENT NOT NULL,
+    user_id INT(255),
+    publication_id INT(255),
+    CONSTRAINT pk_likes PRIMARY KEY(id),
+    CONSTRAINT fk_likes_user FOREIGN KEY(user_id) REFERENCES users(id),
+    CONSTRAINT fk_likes_publication FOREIGN KEY(publication_id) REFERENCES users(id)
+) ENGINE = innoDb; 
+CREATE TABLE notifications(
+    id INT(255) AUTO_INCREMENT NOT NULL,
+    user_id INT(255),
+    TYPE VARCHAR(255),
+    type_id INT(255),
+    readed VARCHAR(3),
+    created_at DATETIME,
+    extra VARCHAR(255),
+    CONSTRAINT pk_notifications PRIMARY KEY(id),
+    CONSTRAINT fk_notifications_user FOREIGN KEY(user_id) REFERENCES users(id)
+) ENGINE = INNODB;
+
+ALTER TABLE `users` ADD `active` VARCHAR(2) NOT NULL AFTER `image`;
