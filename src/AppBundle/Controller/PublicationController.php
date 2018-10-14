@@ -118,10 +118,12 @@ class PublicationController extends Controller
              $publications_repo = $em->getRepository('BackendBundle:Publication');
              $following_repo = $em->getRepository('BackendBundle:Following');
 
-             $following = $following_repo->findBy(['user' => $user]);
+             $following = $following_repo->findBy(array(
+                   'user' => $user
+             ));
              $following_array = array();
              foreach ($following as $follow){
-                 $following_array = $follow->getFollowed();
+                 $following_array[] = $follow->getFollowed();
              }
 
              $query = $publications_repo->createQueryBuilder('p')
@@ -129,7 +131,7 @@ class PublicationController extends Controller
                     ->orWhere('p.user IN (:following)')
                     ->orderBy('p.user','desc')
                     ->addOrderBy('p.createdAt','desc')
-                    ->setParameter('user_id', $user->getId())
+                    ->setParameter('user_id',$user->getId())
                     ->setParameter('following', $following_array)
                     ->getQuery();
 
