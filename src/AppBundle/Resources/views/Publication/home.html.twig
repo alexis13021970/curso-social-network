@@ -25,7 +25,10 @@
                                   - {{ publication.user.nick }}.
                                   <span class="pub-date">{{ publication.createdAt|long_time }}</span>
                               </p>
-                              {{ publication.text }}
+                              <p>{{ publication.text }}</p>
+                              {% if (publication.user.id is defined) and (publication.user.id == app.user.id) %}
+                                  <span data-id="{{ publication.id }}" class="btn-delete-pub glyphicon glyphicon-trash" aria-hidden="true" ></span>
+                              {% endif %}
                               {% if (publication.document is defined) and (publication.document != null) %}
                                   <a href="{{ asset('uploads/publications/documents/'~publication.document) }}"
                                     class="btn-doc glyphicon glyphicon-save" aria-hidden="true" target="_blank"></a>

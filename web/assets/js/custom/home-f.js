@@ -29,8 +29,18 @@ $(document).ready(function () {
 
 function buttons() {
 
-    $('.btn-image').click(function () {
+    $('.btn-image').unbind('click').click(function () {
         $(this).parents().find('.pub-image').fadeToggle();
+    });
+    $('.btn-delete-pub').unbind('click').click(function () {
+         $(this).parent().parent().addClass('hidden');
+         $.ajax({
+             url: URL+'/publication/remove/'+$(this).attr('data-id'),
+             type: 'GET',
+             success: function (response) {
+                 console.log(response);
+             }
+         });
     });
 
 
