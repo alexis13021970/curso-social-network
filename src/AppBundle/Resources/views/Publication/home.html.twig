@@ -2,7 +2,7 @@
 
 {% block javascripts %}
     {{ parent() }}
-    <script type="text/javascript" src="{{ asset('assets/js/custom/home.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('assets/js/custom/home-f.js') }}"></script>
 {% endblock %}
 {% block content %}
      <div class="container">
@@ -27,8 +27,16 @@
                               </p>
                               {{ publication.text }}
                               {% if (publication.document is defined) and (publication.document != null) %}
-                              <a href="{{ asset('uploads/publications/documents/'~publication.document) }}"
-                                class="btn-doc glyphicon glyphicon-save" aria-hidden="true" target="_blank"></a>
+                                  <a href="{{ asset('uploads/publications/documents/'~publication.document) }}"
+                                    class="btn-doc glyphicon glyphicon-save" aria-hidden="true" target="_blank"></a>
+                              {% endif %}
+                              {% if (publication.image is defined) and (publication.image != null) %}
+                                  <span class="btn-image glyphicon glyphicon-picture" aria-hidden="true" ></span>
+                                  <div class="clearfix"></div>
+                                  <div class="pub-image">
+                                      <img src="{{ asset('uploads/publications/images/'~publication.image) }}" alt="">
+                                  </div>
+                              {% endif %}
 
                           </div>
                           <div class="clearfix"></div>

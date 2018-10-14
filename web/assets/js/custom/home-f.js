@@ -20,16 +20,18 @@ $(document).ready(function () {
         text: 'No hay más publicaciones'
     }))
     ias.on('ready',function(event){
-        button();
+        buttons();
     });
     ias.on('rendered',function (event) {
-        button();
+        buttons();
     })
 });
 
-function button() {
+function buttons() {
 
-
+    $('.btn-image').click(function () {
+        $(this).parents().find('.pub-image').fadeToggle();
+    });
 
 
 }
