@@ -19,7 +19,7 @@ BackendBundle\Entity\Like:
                 strategy: IDENTITY
     manyToOne:
         publication:
-            targetEntity: User
+            targetEntity: Publication
             cascade: {  }
             fetch: LAZY
             mappedBy: null

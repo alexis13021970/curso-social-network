@@ -13,7 +13,7 @@ class Like
     private $id;
 
     /**
-     * @var \BackendBundle\Entity\User
+     * @var \BackendBundle\Entity\Publication
      */
     private $publication;
 
@@ -36,11 +36,11 @@ class Like
     /**
      * Set publication
      *
-     * @param \BackendBundle\Entity\User $publication
+     * @param \BackendBundle\Entity\Publication $publication
      *
      * @return Like
      */
-    public function setPublication(\BackendBundle\Entity\User $publication = null)
+    public function setPublication(\BackendBundle\Entity\Publication $publication = null)
     {
         $this->publication = $publication;
 
@@ -50,7 +50,7 @@ class Like
     /**
      * Get publication
      *
-     * @return \BackendBundle\Entity\User
+     * @return \BackendBundle\Entity\Publication
      */
     public function getPublication()
     {

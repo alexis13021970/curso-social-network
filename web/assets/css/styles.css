@@ -155,5 +155,9 @@ body {
     cursor: pointer;
 }
 
+.like .active{
+    color: red !important;
+}
+
 
 

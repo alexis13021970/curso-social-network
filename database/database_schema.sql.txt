@@ -55,7 +55,7 @@ CREATE TABLE likes(
     publication_id INT(255),
     CONSTRAINT pk_likes PRIMARY KEY(id),
     CONSTRAINT fk_likes_user FOREIGN KEY(user_id) REFERENCES users(id),
-    CONSTRAINT fk_likes_publication FOREIGN KEY(publication_id) REFERENCES users(id)
+    CONSTRAINT fk_likes_publication FOREIGN KEY(publication_id) REFERENCES publications(id)
 ) ENGINE = innoDb; 
 CREATE TABLE notifications(
     id INT(255) AUTO_INCREMENT NOT NULL,
