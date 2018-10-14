@@ -26,6 +26,10 @@
                                   <span class="pub-date">{{ publication.createdAt|long_time }}</span>
                               </p>
                               {{ publication.text }}
+                              {% if (publication.document is defined) and (publication.document != null) %}
+                              <a href="{{ asset('uploads/publications/documents/'~publication.document) }}"
+                                class="btn-doc glyphicon glyphicon-save" aria-hidden="true" target="_blank"></a>
+
                           </div>
                           <div class="clearfix"></div>
                           <hr/>
