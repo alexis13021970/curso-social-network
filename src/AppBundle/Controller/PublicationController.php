@@ -125,8 +125,10 @@ class PublicationController extends Controller
              }
 
              $query = $publications_repo->createQueryBuilder('p')
-                    ->where('p.user = (:user_id) or p.user IN (:following)')
-                    ->orderBy('p.user','asc')
+                    ->where('p.user = :user_id')
+                    ->orWhere('p.user IN (:following)')
+                    ->orderBy('p.user','desc')
+                    ->addOrderBy('p.createdAt','desc')
                     ->setParameter('user_id', $user->getId())
                     ->setParameter('following', $following_array)
                     ->getQuery();

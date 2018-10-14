@@ -6,7 +6,7 @@
  * Time: 9:53
  */
 
-namespace AppBundle\twig;
+namespace AppBundle\Twig;
 
 
 use Symfony\Bridge\Doctrine\RegistryInterface;

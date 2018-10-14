@@ -9,7 +9,7 @@ services:
 #        arguments: ["@another_service_name", "plain_value", "%parameter_name%"]
 
     following.twig_extension:
-        class: AppBundle\twig\FollowingExtension
+        class: AppBundle\Twig\FollowingExtension
         public: false
         arguments:
             doctrine: "@doctrine"
@@ -17,7 +17,7 @@ services:
             - {name: twig.extension}
 
     long_time.twig_extension:
-        class: AppBundle\twig\LongTimeExtension
+        class: AppBundle\Twig\LongTimeExtension
         public: false
         tags:
             - {name: twig.extension}
