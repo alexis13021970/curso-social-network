@@ -38,4 +38,28 @@ class LikeController extends Controller
         return new Response($status);
     }
 
+    public function unlikeAction($id = null)
+    {
+         $user = $this->getUser();
+         $em = $this->getDoctrine()->getManager();
+
+         $like_repo = $em->getRepository('BackendBundle:Like');
+         $like = $like_repo->findOneBy(array(
+              'user' => $user,
+              'publication' => $id
+         ));
+
+         $em->remove($like);
+         $flush = $em->flush();
+         if ($flush == null)
+         {
+             $status = "Ya no te gusta esta publicación";
+         }else{
+             $status = "No se ha podido desmarcar el me gusta";
+
+         }
+
+         return new Response($status);
+    }
+
 }
