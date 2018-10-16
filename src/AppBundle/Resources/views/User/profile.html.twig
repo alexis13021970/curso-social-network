@@ -6,8 +6,29 @@
 {% endblock %}
 {% block content %}
     <div class="col-lg-10 box-default profile-box">
+        <div class="avatar">
+            {% if user.image == null %}
+                <img src="{{ asset('assets/images/default.png') }}" alt=""/>
 
-          <div id="user-publications">
+            {% else %}
+                <img src="{{ asset('uploads/users/' ~ user.image) }}" alt=""/>
+            {% endif %}
+        </div>
+        <div class="name-surname">
+            <h2> {{ user.name }} {{ user.surname }}</h2>
+             <div class="clearfix"></div>
+             <span class="nickname">
+                 {{ user.nick }}
+             </span>
+        </div>
+
+        <div class="bio">
+            {{ user.bio }}
+        </div>
+        <div class="user-stats">
+
+        </div>
+        <div id="user-publications">
               {% for publication in pagination %}
                   <div class="col-lg-12 publication-item">
                       <div class="avatar">
@@ -73,6 +94,6 @@
               </div>
               <div class="clearfix"></div>
 
-          </div>
+        </div>
     </div>
 {% endblock %}

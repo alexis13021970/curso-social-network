@@ -241,10 +241,11 @@ class UserController extends Controller
             $user = $this->getUser();
         }
 
-        if (empty($user) && !is_object($user))
+        if (empty($user) || !is_object($user))
         {
             $this->redirect($this->generateUrl('home'));
         }
+
         $user_id = $user->getId();
         $dql = "SELECT p FROM BackendBundle:Publication p WHERE p.user = $user_id ORDER BY p.id DESC";
         $query = $em->createQuery($dql);
@@ -253,8 +254,8 @@ class UserController extends Controller
         $publications = $paginator->paginate($query, $request->query->getInt('page',1),5);
 
         return $this->render('AppBundle:User:profile.html.twig',array(
-              'user' => $user,
-              'pagination' => $publications
+              'pagination' => $publications,
+              'user' => $user
         ));
 
     }
