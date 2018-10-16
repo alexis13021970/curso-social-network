@@ -91,6 +91,49 @@
                  </div>
              </div>
              <div class="clearfix"></div>
+
+             {% set user_stats = app.user|user_stats %}
+
+             <div class="following-data">
+                 <a href="#">
+                     <span class="label-stat">
+                        Siguiendo
+                     </span>
+                     <span class="number-stat">
+                         {{ user_stats.following }}
+                     </span>
+                 </a>
+             </div>
+             <div class="following-data">
+                 <a href="#">
+                     <span class="label-stat">
+                        Seguidores
+                     </span>
+                     <span class="number-stat">
+                         {{ user_stats.followers }}
+                     </span>
+                 </a>
+             </div>
+             <div class="following-data">
+                 <a href="#">
+                     <span class="label-stat">
+                        Publicaciones
+                     </span>
+                     <span class="number-stat">
+                         {{ user_stats.publications }}
+                     </span>
+                 </a>
+             </div>
+             <div class="following-data">
+                 <a href="#">
+                     <span class="label-stat">
+                        Me gustas
+                     </span>
+                     <span class="number-stat">
+                         {{ user_stats.likes }}
+                     </span>
+                 </a>
+             </div>
          </div>
          <div id="new-publication" class="col-lg-4 box-default pull-left" >
                 <h1 class="box-header">Crear Publicación</h1>
