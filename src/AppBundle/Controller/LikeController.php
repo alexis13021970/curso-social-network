@@ -62,4 +62,33 @@ class LikeController extends Controller
          return new Response($status);
     }
 
+    public function likesAction(Request $request, $nicname = null)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $repo_user = $em->getRepository('BackendBundle:User');
+        if ($nicname != null) {
+            $user = $repo_user->findBy(array('nick' => $nicname));
+        } else {
+            $user = $this->getUser();
+        }
+        if (empty($user) || !is_object($user)) {
+            return $this->redirect($this->generateUrl('home'));
+
+        }
+
+        $user_id = $user->getId();
+        $dql = "SELECT l FROM BackendBundle:Like l WHERE l.user = $user_id ORDER BY l.user DESC";
+
+        $query = $em->createQuery($dql);
+
+        $paginator = $this->get('knp_paginator');
+        $likes = $paginator->paginate($query, $request->query->getInt('page', 1), 5);
+
+        return $this->render('AppBundle:Like:likes.html.twig', array(
+            'user' => $user,
+            'pagination' => $likes
+        ));
+
+    }
+
 }
