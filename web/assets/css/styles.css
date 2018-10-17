@@ -41,6 +41,11 @@ body {
 
 /* GENTE Y TIME LINE*/
 
+.user-link{
+    color: #444;
+    font-weight: bold;
+}
+
 .user-item .avatar,
 .publication-item .avatar{
     background: #eee;

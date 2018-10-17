@@ -21,7 +21,7 @@
                           </div>
                           <div class="publication-item-content">
                               <p>
-                                  <a class="pub-name-link" href="">{{ publication.user.name }} {{ publication.user.surname }}</a>
+                                  <a class="pub-name-link" href="{{ path('user_profile',{'nickname': publication.user.nick}) }}">{{ publication.user.name }} {{ publication.user.surname }}</a>
                                   - {{ publication.user.nick }}.
                                   <span class="pub-date">{{ publication.createdAt|long_time }}</span>
                               </p>
@@ -84,7 +84,7 @@
                      {% endif %}
              </div>
              <div class="name-surname">
-                 <a href="#">{{ app.user.name }} {{ app.user.surname }}</a>
+                 <a href="{{ path('user_profile',{'nickname': app.user.nick}) }}">{{ app.user.name }} {{ app.user.surname }}</a>
                  <div class="clearfix"></div>
                  <div class="nickname">
                       {{ app.user.nick }}
