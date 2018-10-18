@@ -79,6 +79,20 @@
                            </li>
                        {% endif %}
                        {% if app.user !=null %}
+                           <li>
+                               <a class="nav-link" href="{{ path('users_list') }}">
+                                   <span class="glyphicon glyphicon-envelope"></span>
+                                   &nbsp
+                                   Mensajes Privados
+                               </a>
+                           </li>
+                           <li>
+                               <a class="nav-link" href="{{ path('users_list') }}">
+                                   <span class="glyphicon glyphicon-bell"></span>
+                                   &nbsp
+                                   Notificaciones
+                               </a>
+                           </li>
                            <li class="nav-item dropdown">
                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                    <div id="avatar_user">
@@ -94,11 +108,11 @@
 
                                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
 
-                                   <a class="dropdown-item" href="{{ path('user_edit') }}">
+                                   <a class="dropdown-item" href="{{ path('user_profile') }}">
                                        <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
                                        &nbsp;Mi Perfil
                                    </a>
-                                   <a class="dropdown-item" href="#">
+                                   <a class="dropdown-item" href="{{ path('user_edit') }}">
                                        <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
                                        &nbsp;Mis Datos
                                    </a>
