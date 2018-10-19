@@ -90,10 +90,11 @@ class PrivateMessageController extends Controller
 
         }
         $private_messages = $this->getPrivateMessages($request);
-        return $this->render('AppBundle:PrivateMessage:index.html.twig', [
-            'form' => $form->createView()
+        return $this->render('AppBundle:PrivateMessage:index.html.twig', array(
+            'form' => $form->createView(),
+            'pagination' => $private_messages
 
-        ]);
+        ));
     }
 
     /**
@@ -114,7 +115,7 @@ class PrivateMessageController extends Controller
          $user = $this->getUser();
          $user_id = $user->getId();
 
-         if ($type = "sended"){
+         if ($type == "sended"){
              $dql = "SELECT p FROM BackendBundle:PrivateMessage p WHERE p.emiter = $user_id ORDER BY p.id DESC";
          }else{
              $dql = "SELECT p FROM BackendBundle:PrivateMessage p WHERE p.receiver = $user_id ORDER BY p.id DESC";
