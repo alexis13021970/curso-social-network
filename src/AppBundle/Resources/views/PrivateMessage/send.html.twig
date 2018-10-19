@@ -1,0 +1,59 @@
+{% extends "AppBundle:Layout:layout.html.twig" %}
+{% block content %}
+    <div class="container">
+        <div class="col-lg-12 box-default">
+            <h1 class="box-header">
+                Mensajería privada
+            </h1>
+            <div class="col-lg-6">
+
+                <a href="{{ path('private_message_index') }}" class="btn btn-warning">Ver mensajes recibidos</a>
+            </div>
+
+            <div class="col-lg-6">
+                <h4>Ver Mensajes Enviados</h4>
+                <hr/>
+                <div class="box_content box-messages">
+                    {% for message in pagination %}
+                        <div class="col-lg-12 publication-item">
+                            <div class="avatar">
+                                {% if message.emiter.image == null %}
+                                    <img src="{{ asset('assets/images/default.png') }}" alt="">
+                                {% else %}
+                                    <img src="{{ asset('uploads/users' ~ message.emiter.image) }}" alt="">
+                                {% endif %}
+                            </div>
+                            <div class="publication-item-content">
+                                <p>
+                                    <a class="pub-name-link"
+                                       href="{{ path('user_profile',{'nickname': message.emiter.nick}) }}">{{ message.emiter.name }} {{ message.emiter.surname }}</a>
+                                    - {{ message.emiter.nick }}.
+                                    <span class="pub-date">{{ message.createdAt|long_time }}</span>
+                                </p>
+                                <p>{{ message.message }}</p>
+
+                                {% if (message.file is defined) and (message.file != null) %}
+                                    <a href="{{ asset('uploads/messages/documents/'~message.file) }}"
+                                       class="btn-doc glyphicon glyphicon-save" aria-hidden="true" target="_blank"></a>
+                                {% endif %}
+                                {% if (message.image is defined) and (message.image != null) %}
+                                    <a href="{{ asset('uploads/messages/images/'~message.image) }}"
+                                       class="btn-doc glyphicon glyphicon-picture" aria-hidden="true" target="_blank"></a>
+                                {% endif %}
+
+                            </div>
+                            <div class="clearfix"></div>
+                            <hr/>
+                        </div>
+                    {% endfor %}
+                </div>
+                <div class="navigation">
+                    {{ knp_pagination_render(pagination) }}
+                </div>
+            </div>
+
+            <div class="clearfix"></div>
+        </div>
+    </div>
+
+{% endblock %}

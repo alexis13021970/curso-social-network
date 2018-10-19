@@ -41,5 +41,25 @@ class NotificationService
             $status = $flush == null ? true : false;
              return $status;
         }
+        public function read($user)
+        {
+             $em = $this->manager;
+             $notifications_repo = $em->getRepository('BackendBundle:Notification');
+             $notifications = $notifications_repo->findBy(array(
+                    'user' => $user
+             ));
+
+             foreach($notifications as $notification){
+                    $notification->setReaded(1);
+
+                    $em->persist($notification);
+             }
+             $flush = $em->flush();
+             if ($flush == null){
+                 return true;
+             }else{
+                 return false;
+             }
+        }
 
 }
