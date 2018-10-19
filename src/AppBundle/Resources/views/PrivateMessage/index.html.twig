@@ -16,38 +16,7 @@
             <h4>Ver Mensajes Recibidos</h4>
             <hr/>
             <div class="box_content box-messages">
-                {% for message in pagination %}
-                    <div class="col-lg-12 publication-item">
-                        <div class="avatar">
-                            {% if message.emiter.image == null %}
-                                <img src="{{ asset('assets/images/default.png') }}" alt="">
-                            {% else %}
-                                <img src="{{ asset('uploads/users' ~ message.emiter.image) }}" alt="">
-                            {% endif %}
-                        </div>
-                        <div class="publication-item-content">
-                            <p>
-                                <a class="pub-name-link"
-                                   href="{{ path('user_profile',{'nickname': message.emiter.nick}) }}">{{ message.emiter.name }} {{ message.emiter.surname }}</a>
-                                - {{ message.emiter.nick }}.
-                                <span class="pub-date">{{ message.createdAt|long_time }}</span>
-                            </p>
-                            <p>{{ message.message }}</p>
-
-                            {% if (message.file is defined) and (message.file != null) %}
-                                <a href="{{ asset('uploads/messages/documents/'~message.file) }}"
-                                   class="btn-doc glyphicon glyphicon-save" aria-hidden="true" target="_blank"></a>
-                            {% endif %}
-                            {% if (message.image is defined) and (message.image != null) %}
-                                <a href="{{ asset('uploads/messages/images/'~message.image) }}"
-                                   class="btn-doc glyphicon glyphicon-picture" aria-hidden="true" target="_blank"></a>
-                            {% endif %}
-
-                        </div>
-                        <div class="clearfix"></div>
-                        <hr/>
-                    </div>
-                {% endfor %}
+                {% include '@App/Partials/detalle_mensaje.html.twig' %}
             </div>
             <div class="navigation">
                 {{ knp_pagination_render(pagination) }}
