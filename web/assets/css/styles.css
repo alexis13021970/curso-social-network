@@ -244,10 +244,14 @@ body {
 .profile-box #user-stats .number-stat{
     font-weight: bold;
 }
+.profile-box .button-following{
+    margin-top: 20px;
+}
+
+/* PRIVATE MESSAGE  */
 .box-private-message input,
 .box-private-message textarea,
 .box-private-message select{
     margin-bottom: 10px;
-
 }
 

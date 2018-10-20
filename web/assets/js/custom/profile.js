@@ -21,6 +21,7 @@ $(document).ready(function () {
     }))
     ias.on('ready',function(event){
         buttons();
+        followButton();
     });
     ias.on('rendered',function (event) {
         buttons();
