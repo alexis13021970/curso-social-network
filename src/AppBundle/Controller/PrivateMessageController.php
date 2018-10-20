@@ -7,6 +7,7 @@ use AppBundle\Form\PrivateMessageType;
 use BackendBundle\Entity\PrivateMessage;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\Session;
 
 class PrivateMessageController extends Controller
@@ -34,9 +35,7 @@ class PrivateMessageController extends Controller
         $user = $this->getUser();
 
         $private_message = new PrivateMessage();
-        $form = $this->createForm(PrivateMessageType::class, $private_message, array(
-            'empty_data' => $user
-        ));
+        $form = $this->createForm(PrivateMessageType::class, $private_message, array('empty_data' => $user));
         $form->handleRequest($request);
         if ($form->isSubmitted()) {
             if ($form->isValid()) {
@@ -77,22 +76,21 @@ class PrivateMessageController extends Controller
 
                 $em->persist($private_message);
                 $flush = $em->flush();
-                if ($flush == null){
+                if ($flush == null) {
                     $status = "Mensaje privado enviado correctamente";
-                }else{
+                } else {
                     $status = "Mensaje privado no se ha enviado ";
                 }
             } else {
                 $status = "Mensaje privado no se ha enviado ";
             }
-            $this->session->getFlashBag()->add('status',$status);
+            $this->session->getFlashBag()->add('status', $status);
             return $this->redirectToRoute('private_message_index');
 
         }
         $private_messages = $this->getPrivateMessages($request);
-        return $this->render('AppBundle:PrivateMessage:index.html.twig', array(
-            'form' => $form->createView(),
-            'pagination' => $private_messages
+        $this->setReaded($em, $user);
+        return $this->render('AppBundle:PrivateMessage:index.html.twig', array('form' => $form->createView(), 'pagination' => $private_messages
 
         ));
     }
@@ -102,31 +100,69 @@ class PrivateMessageController extends Controller
      */
     public function sendedAction(Request $request)
     {
-          $private_messages = $this->getPrivateMessages($request, "sended");
+        $private_messages = $this->getPrivateMessages($request, "sended");
 
-          return $this->render('AppBundle:PrivateMessage:send.html.twig',array(
-                 'pagination' => $private_messages
-          ));
+        return $this->render('AppBundle:PrivateMessage:send.html.twig', array('pagination' => $private_messages));
 
 
     }
-    public function getPrivateMessages($request , $type = null){
-         $em = $this->getDoctrine()->getManager();
-         $user = $this->getUser();
-         $user_id = $user->getId();
 
-         if ($type == "sended"){
-             $dql = "SELECT p FROM BackendBundle:PrivateMessage p WHERE p.emiter = $user_id ORDER BY p.id DESC";
-         }else{
-             $dql = "SELECT p FROM BackendBundle:PrivateMessage p WHERE p.receiver = $user_id ORDER BY p.id DESC";
+    public function getPrivateMessages($request, $type = null)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $user = $this->getUser();
+        $user_id = $user->getId();
+
+        if ($type == "sended") {
+            $dql = "SELECT p FROM BackendBundle:PrivateMessage p WHERE p.emiter = $user_id ORDER BY p.id DESC";
+        } else {
+            $dql = "SELECT p FROM BackendBundle:PrivateMessage p WHERE p.receiver = $user_id ORDER BY p.id DESC";
+        }
+
+        $query = $em->createQuery($dql);
+        $paginator = $this->get('knp_paginator');
+        $paginacion = $paginator->paginate($query, $request->query->getInt('page', 1), 5);
+
+        return $paginacion;
+
+    }
+
+    /**
+     * @return Response
+     */
+    public function notReadAction()
+    {
+        $em = $this->getDoctrine()->getManager();
+        $user = $this->getUser();
+        $private_message_repo = $em->getRepository('BackendBundle:PrivateMessage');
+        $count_not_readed_msg = count($private_message_repo->findBy(array('readed' => 0, 'receiver' => $user)));
+
+        return New Response($count_not_readed_msg);
+    }
+
+    /**
+     * @param $em
+     * @param $user
+     */
+    private function setReaded($em, $user){
+         $private_message_repo = $em->getRepository('BackendBundle:PrivateMessage');
+        /** @var TYPE_NAME $messages */
+        $messages = $private_message_repo->findBy(array('readed' => 0, 'receiver' => $user));
+
+         foreach ($messages as $msg){
+
+             $msg->setReaded(1);
+
+             $em->persist($msg);
          }
+         $flush = $em->flush();
 
-         $query = $em->createQuery($dql);
-         $paginator = $this->get('knp_paginator');
-         $paginacion = $paginator->paginate($query, $request->query->getInt('page',1),5);
-
-         return $paginacion;
-
+         if ($flush ==null){
+             $result = true;
+         }else{
+             $result = false;
+         }
+         return $result;
     }
 
 }
